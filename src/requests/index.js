@@ -9,10 +9,13 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
     config.data = Object.assign({},config.data,{
         // authToken:window.localStorage.getItem('authToken')
-        authToken:'sadsadas'
+        authToken:'aaaaaaaa'
     })
     return config
 })
+
+
+
 
 service.interceptors.response.use((resp)=>{
     if(resp.data.code === 200){
