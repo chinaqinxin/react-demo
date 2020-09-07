@@ -1,5 +1,5 @@
 import {
-    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings
+    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings,Notifications
 } from '../views'
 
 export const mainRouters = [{
@@ -26,6 +26,9 @@ export const adminRouters = [{
 },{
     pathname:'/admin/article/edit/:id',
     component:ActicleEdit
+},{
+    pathname:'/admin/notifications',
+    component:Notifications
 },{
     pathname:'/admin/settings',
     component:Settings,

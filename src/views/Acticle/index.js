@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Card, Button, Table,Tag } from "antd";
-import {getArticles} from '../../requests/index'
+import { Card, Button, Table,Tag,Popconfirm, message, Tooltip} from "antd";
+import {getArticles,deleteArticle} from '../../requests/index'
 import moment from 'moment'
 import XLSX from 'xlsx'
 // const dataSource = [
@@ -66,6 +66,11 @@ export default class Acticlelist extends Component {
             limited:10
         }
     }
+    // 挂在之前
+    componentDidMount(){
+        this.getData()
+    }
+
     // 初始化是要加载的数据   提取出来的function
     getData = () => {
         this.setState({
@@ -90,7 +95,6 @@ export default class Acticlelist extends Component {
     }
     // 页面变化的function
     onPageChange = ( page,pageSize) =>{
-        // console.log(page,pageSize,'xxxxx')
         this.setState({
             offset:pageSize * (page - 1),
             limited:pageSize
@@ -98,8 +102,9 @@ export default class Acticlelist extends Component {
             this.getData()
         })
     }
+    // 显示条数发生变化
     onShowSizeChange = ( current,size ) => {
-        // console.log(current,size,'xxxx')
+        console.log(current,size,'xxxx')
         this.setState({
             offset:0,
             limited:size
@@ -107,6 +112,29 @@ export default class Acticlelist extends Component {
             this.getData()
         })
     }
+    // 点击删除
+    PopconfirmdeleteArticle = (record) =>{
+        deleteArticle(record.id).then((res)=>{
+            message.success(res.msg)
+            this.setState({
+                offset:0
+            },()=>{
+                this.getData()
+            })
+        })
+    }
+    // 点击编辑
+    toEditor = (record) =>{
+        // this.props.history.push(`/admin/article/edit/${record.id}`)
+        // console.log(record)
+        this.props.history.push({
+                pathname:`/admin/article/edit/${record.id}` ,
+                state:{
+                    title:record.title
+                }
+            })
+    }
+
     // 常见columns
     createColumns = (columnsKeys) =>{
         // return columnsKeys.map(item=>{
@@ -133,7 +161,12 @@ export default class Acticlelist extends Component {
                         //     '003':'green'
                         // }
                         // return  <Tag color={titleMap[item]}>{record.title}</Tag>
-                        return  <Tag color={amount > 220 ? 'red' : 'blue'}>{record.amount}</Tag>
+
+                        return  (
+                            <Tooltip title={amount > 220 ? '超过230' : '未超过230'}>
+                                <Tag color={amount > 220 ? 'red' : 'blue'}>{record.amount}</Tag>
+                            </Tooltip>
+                        )
                     }
                 }
             }
@@ -156,11 +189,22 @@ export default class Acticlelist extends Component {
             columns.push({
                 title:'操作',
                 key:'action',
-                render:()=>{
+                render:(text,record,index)=>{
                     return (
                         <ButtonGroup>
-                            <Button size="small" type="primary">编辑</Button>
-                            <Button size="small" type="danger">删除</Button>
+                            <Button size="small" type="primary" onClick={()=>{this.toEditor(record)}}>编辑</Button>
+
+                            <Popconfirm 
+                                title="确定要删除吗?" 
+                                onConfirm={()=>{this.PopconfirmdeleteArticle(record)}}
+                                okButtonProps={{ type: 'default' }}
+                            >
+                            {/* onClick={this.deleteArticle.bind(this,record.id)} */}
+                                <Button size="small" type="danger" >
+                                    删除
+                                </Button>
+                            </Popconfirm>
+                            
                         </ButtonGroup>
                     )
                         
@@ -195,9 +239,8 @@ export default class Acticlelist extends Component {
         //  创建一个这样的文件发送给客户端
 		XLSX.writeFile(wb, `articles-${this.state.offset / this.state.limited + 1}-${moment().format('YYYY-MM-DD')}.xlsx`)
     }
-    componentDidMount(){
-        this.getData()
-    }
+
+    
     render() {
         return (
             <Card

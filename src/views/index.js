@@ -34,7 +34,11 @@ const Settings = Loadable({
     loader:()=>import('./Settings'),
     loading:Loading
 })
+const Notifications = Loadable({
+    loader:()=>import('./Notifications'),
+    loading:Loading
+})
 
 export {
-    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings
+    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings,Notifications
 } 
