@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import {Button, Card, List,Avatar, Badge} from 'antd'
+import {Button, Card, List,Avatar, Badge, Spin} from 'antd'
 import {connect} from 'react-redux'
-import {markNotificationsReadById} from '../../actions/notifications'
+import {markNotificationsReadById,markAllNotificationsAsRead} from '../../actions/notifications'
 // 此处data是练习写的数据，使用请求后便可以注释
 // const data = [
 //     {
@@ -29,40 +29,50 @@ import {markNotificationsReadById} from '../../actions/notifications'
 //装饰器模式（不需要在组件外边再去包裹一层，用最原始的高阶函数写法去写了）
 @connect(
     state => ({
-        list:state.notifications.list
+        list:state.notifications.list,
+        isLoading:state.notifications.isLoading
     }),{
-        markNotificationsReadById
+        markNotificationsReadById,
+        markAllNotificationsAsRead
     }
 )
 class Notifications extends Component {
     render() {
-        const {list } = this.props
-        console.log(list,'wwww')
+        const {list,isLoading } = this.props
         return (
-            <Card
-                title="通知中心"
-                bordered={false}
-                extra={<Button disabled = {list.every(item => item.hashRead === true)}>全部标记为已读</Button>}
-            >
-                 <List 
-                    dataSource={list}
-                    renderItem={item => (
-                        <List.Item
-                            extra={item.hashRead ? null : <Button onClick={this.props.markNotificationsReadById.bind(this,item.id)}>标记为已读</Button>}
+            <Spin spinning={isLoading}>
+                <Card
+                    title="通知中心"
+                    bordered={false}
+                    extra={
+                        <Button 
+                            disabled = {list.every(item => item.hashRead === true)}
+                            onClick={this.props.markAllNotificationsAsRead}
                         >
-                          <List.Item.Meta
-                            avatar={
-                                <Badge dot={!item.hashRead} >
-                                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                                </Badge>
-                            }
-                            title={<a href="https://ant.design">{item.title}</a>}
-                            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                          />
-                        </List.Item>
-                    )}
-                 />
-            </Card>
+                            全部标记为已读
+                        </Button>
+                    }
+                >
+                    <List 
+                        dataSource={list}
+                        renderItem={item => (
+                            <List.Item
+                                extra={item.hashRead ? null : <Button onClick={this.props.markNotificationsReadById.bind(this,item.id)}>标记为已读</Button>}
+                            >
+                            <List.Item.Meta
+                                avatar={
+                                    <Badge dot={!item.hashRead} >
+                                        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                    </Badge>
+                                }
+                                title={<a href="https://ant.design">{item.title}</a>}
+                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                            />
+                            </List.Item>
+                        )}
+                    />
+                </Card>
+            </Spin>
         )
     }
 }

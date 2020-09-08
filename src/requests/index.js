@@ -66,3 +66,8 @@ export const saveArticle = ( id,data ) => {
 export const saveArticleAmount = () =>{
     return service.post('/api/v1/articleAmount')
 }
+
+// 获取通知列表
+ export const getNotifications = () =>{
+     return service.post('/api/v1/notifications')
+ }

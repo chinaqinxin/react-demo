@@ -4,7 +4,8 @@ import {withRouter} from 'react-router-dom'
 import Logo from './uugai.com_1599468914996.png'
 import './frame.less'
 import {connect} from 'react-redux'
-
+import {getNotificationList} from '../../actions/notifications'
+ 
 const { Header, Content, Sider } = Layout;
 
 
@@ -13,9 +14,15 @@ const { Header, Content, Sider } = Layout;
 @connect(
   state => ({
     notificationsCount : state.notifications.list.filter(item => item.hashRead === false).length
-  })
+  }),{
+    getNotificationList
+  }
 )
 class Frame extends Component {
+
+    componentDidMount(){
+      this.props.getNotificationList()
+    }
 
     onMenuClick=({key})=>{
         console.log(key)
