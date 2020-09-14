@@ -1,3 +1,12 @@
+使用create-react-app 搭建
+rap2 mock数据
+clone project
+npm i
+（可能会存在npm i后运行失败的，因为项目使用了wangeditor 这个包现在无人维护，自动报警安全问题）
+（如果你需要扩展这个项目，也可能会出现上述问题，没有关系，你安装好所需要的扩展包，在npm i 就会解决）
+npm start
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
