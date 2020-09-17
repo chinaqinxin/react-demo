@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 import { UploadOutlined } from '@ant-design/icons';
 
 export default class Profie extends Component {
+    stste={
+        isUploading:false,
+        avatarUrl:''
+    }
     render() {
         return (
             <Card
@@ -10,7 +14,7 @@ export default class Profie extends Component {
                 bordered={false}
             >
                 <Upload>
-                    <Icon type="upload" />点击上传
+                    <Icon type="upload" />
                 </Upload>
             </Card>
         )
