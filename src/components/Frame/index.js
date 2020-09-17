@@ -5,6 +5,7 @@ import Logo from './uugai.com_1599468914996.png'
 import './frame.less'
 import {connect} from 'react-redux'
 import {getNotificationList} from '../../actions/notifications'
+import { logoout } from "../../actions/user";
  
 const { Header, Content, Sider } = Layout;
 
@@ -13,9 +14,12 @@ const { Header, Content, Sider } = Layout;
 @withRouter
 @connect(
   state => ({
-    notificationsCount : state.notifications.list.filter(item => item.hashRead === false).length
+    notificationsCount : state.notifications.list.filter(item => item.hashRead === false).length,
+    avatar:state.user.avatar,
+    displayName:state.user.displayName
   }),{
-    getNotificationList
+    getNotificationList,
+    logoout
   }
 )
 class Frame extends Component {
@@ -25,12 +29,15 @@ class Frame extends Component {
     }
 
     onMenuClick=({key})=>{
-        console.log(key)
         this.props.history.push(key)
     }
     menuClick = ({ item, key, keyPath, domEvent }) =>{
       // console.log( item, key, keyPath, domEvent )
-      this.props.history.push(key)
+      if(key === '/login'){
+        this.props.logoout()
+      }else{
+        this.props.history.push(key)
+      }
     }
     renderDropdown = () => (
       <Menu
@@ -41,7 +48,7 @@ class Frame extends Component {
               通知中心
           </Badge>
         </Menu.Item>
-        <Menu.Item key="/admin/settings">
+        <Menu.Item key="/admin/profie">
             个人设置
         </Menu.Item>
         <Menu.Item key="/login">
@@ -52,18 +59,18 @@ class Frame extends Component {
     render() {
       const {notificationsCount} =  this.props
         return (
-            <Layout style={{minHeight:"100%"}}>
-            <Header className="qx-header">
+            <Layout className="qx-layout">
+            <Header className="qx-header" >
               <div className="qx-logo">
                     <img src={Logo} alt="qinxin" />
               </div>
 
-              <div>
+              <div className="qx-header-div">
                 <Dropdown overlay={this.renderDropdown()} trigger={['click']}>
-                  <Badge count={notificationsCount} offset={[-150,10]}>
-                    <div style={{display:"flex",alignItems:'center'}}>
-                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /> 
-                      <span>欢迎你！秦鑫</span>  
+                  <Badge count={notificationsCount} offset={[-150,15]}>
+                    <div className="qx-header-div-Dropdown-Badge-div">
+                      <Avatar src={this.props.avatar} /> 
+                      <span style={{paddingRight:'10px'}}>欢迎你！{this.props.displayName}</span>  
                       <Icon type="down"/>
                     </div>
                   </Badge>
@@ -77,8 +84,8 @@ class Frame extends Component {
                   mode="inline"
                   defaultSelectedKeys={['1']}
                   selectedKeys={this.props.location.pathname}
-                  style={{ height: '100%', borderRight: 0 }}
                   onClick={this.onMenuClick}
+                  className="Layout-Sider-Menu"
                 >
                   {
                         this.props.menus.map((item)=>{
@@ -87,15 +94,10 @@ class Frame extends Component {
                   }
                 </Menu>
               </Sider>
-              <Layout style={{ padding: '16px' }}>
+              <Layout className="layout">
                 
                 <Content
-                  style={{
-                    background: '#fff',
-                    padding: 24,
-                    margin: 0,
-                    minHeight: 280,
-                  }}
+                  className="layou-Content"
                 >
                   {this.props.children}
                 </Content>

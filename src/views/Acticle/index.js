@@ -71,6 +71,12 @@ export default class Acticlelist extends Component {
         this.getData()
     }
 
+     // 自定义setstate
+    //  getData = (state) =>{
+    //     if(!this.updater.isMounted(this)) return
+    //     this.setState(state)
+    // }
+
     // 初始化是要加载的数据   提取出来的function
     getData = () => {
         this.setState({
@@ -79,6 +85,8 @@ export default class Acticlelist extends Component {
         getArticles(this.state.offset,this.state.limited).then(resp=>{
               const columnsKeys = Object.keys(resp.list[0])
               const columns = this.createColumns(columnsKeys)
+            //   如果请求完成以后组件已经销毁就不要在setstate
+              if(!this.updater.isMounted(this)) return
               this.setState({
                   total:resp.total,
                   dataSource:resp.list,
@@ -88,6 +96,7 @@ export default class Acticlelist extends Component {
                 // 处理错误
                 console.log(err)
             }).finally(()=>{
+                if(!this.updater.isMounted(this)) return
                 this.setState({
                     isLoading:false
                 })

@@ -8,15 +8,19 @@ import './index.less'
 import {ConfigProvider} from 'antd'
 import store from './store'
 import {Provider} from 'react-redux'
+
+
 render(
     <Provider store={store}>
             <ConfigProvider locale={zhCN}>
                 <Router>
                     <Switch>
-                        <Route path='/admin' render={(routerProps)=>{
-                            // TOOD 权限，需要登陆才能访问admin
-                            return <App {...routerProps}/>
-                        }}/>
+                        <Route path='/admin' component={App}
+                            // render={(routerProps)=>{
+                            //     // TOOD 权限，需要登陆才能访问admin
+                            //     return <App {...routerProps}/>
+                            // }}
+                        />
                         {
                             mainRouters.map(route=>{
                                 return <Route key={route.pathname} path={route.pathname} component={route.component}/>

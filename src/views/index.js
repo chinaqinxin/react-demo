@@ -10,6 +10,7 @@ import {Loading} from '../components'
 // import ActicleEdit from './Acticle/Edit'
 // import Settings from './Settings'
 // 懒加载
+
 const Dashboard = Loadable({
     loader:()=>import('./Dashboard'),
     loading:Loading
@@ -38,7 +39,14 @@ const Notifications = Loadable({
     loader:()=>import('./Notifications'),
     loading:Loading
 })
-
+const NoAuth = Loadable({
+    loader:()=>import('./NoAuth'),
+    loading:Loading
+})
+const Profie = Loadable({
+    loader:()=>import('./Profie'),
+    loading:Loading
+})
 export {
-    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings,Notifications
+    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings,Notifications,NoAuth,Profie
 } 

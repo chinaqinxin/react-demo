@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { adminRouters } from './routes'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { Frame } from './components'
+import { connect } from 'react-redux'
 
 const menus = adminRouters.filter(route => route.isNav === true)
 
@@ -23,9 +24,20 @@ const menus = adminRouters.filter(route => route.isNav === true)
 // @testHOC
 
 
+
+@connect(
+    state=>({
+        isLogin:state.user.isLogin,
+        role:state.user.role
+    })
+)
 class App extends Component {
     render() {
+        const {isLogin,role} = this.props
         return (
+            
+                isLogin ? 
+                
             <Frame menus={menus}>
                 <div>
                     {/* 111
@@ -40,7 +52,9 @@ class App extends Component {
                                         path={route.pathname}
                                         exact={route.exact}
                                         render={routerProps => {
-                                            return <route.component {...routerProps} />;
+                                            // console.log(route.roles.includes(role))
+                                            const hasPermission = route.roles.includes(role)
+                                            return hasPermission ? <route.component {...routerProps} /> : <Redirect to="/admin/noauth"/>;
                                         }}
                                     />
                                 );
@@ -51,6 +65,9 @@ class App extends Component {
                     </Switch>
                 </div>
             </Frame>
+            :
+            <Redirect to="/login"/>
+            
         )
     }
 }

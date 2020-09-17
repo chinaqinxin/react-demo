@@ -1,5 +1,6 @@
 import {
-    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings,Notifications
+    Dashboard,Login,NotFound,ActicleList,ActicleEdit,Settings,Notifications,NoAuth,Profie
+    // ,Test
 } from '../views'
 
 export const mainRouters = [{
@@ -15,24 +16,37 @@ export const adminRouters = [{
     component:Dashboard,
     title:'仪表盘',
     icon:'dashboard',
-    isNav:true
+    isNav:true,
+    roles:['001','002','003']
 },{
     pathname:'/admin/article',
     component:ActicleList,
     exact:true,
     title:'文章管理',
     icon:'unordered-list',
-    isNav:true
+    isNav:true,
+    roles:['001','002']
 },{
     pathname:'/admin/article/edit/:id',
-    component:ActicleEdit
+    component:ActicleEdit,
+    roles:['001','002']
 },{
     pathname:'/admin/notifications',
-    component:Notifications
+    component:Notifications,
+    roles:['001','002','003']
 },{
     pathname:'/admin/settings',
     component:Settings,
     title:'设置',
     icon:'setting',
-    isNav:true
+    isNav:true,
+    roles:['001']
+},{
+    pathname:'/admin/noauth',
+    component:NoAuth,
+    roles:['001','002','003']
+},{
+    pathname:'/admin/profie',
+    component:Profie,
+    roles:['001','002','003']
 }]
