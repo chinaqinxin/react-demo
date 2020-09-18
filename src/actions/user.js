@@ -24,6 +24,16 @@ const loginFailed = () =>{
     }
 }
 
+// 头像
+export const changeAvatar = (avatarUrl) =>{
+    return {
+        type:actionTypes.CHANGE_AVATAR,
+        payload:{
+            avatarUrl
+        }
+    }
+}
+
 export const logoout = () =>{
     return dispatch=>{
         // 实际操作是请求后端接口告诉后端已经退出
