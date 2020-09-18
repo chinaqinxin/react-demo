@@ -43,7 +43,7 @@ class Profie extends Component {
     }
 
     render() {
-        console.log(this.props.avatarUrl)
+        // console.log(this.props.avatarUrl)
         return (
             <Card
                 title="个人设置"
