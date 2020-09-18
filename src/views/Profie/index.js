@@ -16,7 +16,7 @@ class Profie extends Component {
     }
 
     handleUploadAvatr = ({file}) =>{
-        console.log(file)
+        // console.log(file)
         const data = new FormData()
         // console.log(data,'new formdata')
         data.append('Token',
