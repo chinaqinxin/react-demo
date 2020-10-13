@@ -3,11 +3,11 @@ import {message} from 'antd'
 const isDev = process.env.NODE_ENV === 'development'
 
 const service = axios.create({
-    baseURL : isDev ? 'http://rap2.taobao.org:38080/app/mock/248256' : ''
+    baseURL : isDev ? 'http://rap2api.taobao.org/app/mock/248256' : ''
 })
 
-const service1 = axios.create({
-    baseURL : isDev ? 'http://rap2.taobao.org:38080/app/mock/248256' : ''
+const servicelog = axios.create({
+    baseURL : isDev ? 'http://rap2api.taobao.org/app/mock/248256' : ''
 })
 
 service.interceptors.request.use((config) => {
@@ -78,5 +78,5 @@ export const saveArticleAmount = () =>{
 
 //  登陆
 export const loginRequest = (userInfo) =>{
-    return service1.post('/api/v1/login',userInfo)
+    return servicelog.post('/api/v1/login',userInfo)
 }

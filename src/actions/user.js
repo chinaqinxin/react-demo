@@ -43,8 +43,11 @@ export const logoout = () =>{
 }
 
 export const login = (userInfo) => dispatch =>{
+    console.log(userInfo,'wwww')
+
     dispatch(startLogin())
     loginRequest(userInfo).then(res=>{
+        console.log(userInfo,'wwww')
         if(res.data.code === 200){
             // const {authToken,...userInfo} = res.data.data
             if(userInfo.remember === true){

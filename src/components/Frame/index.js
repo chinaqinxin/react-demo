@@ -67,9 +67,9 @@ class Frame extends Component {
 
               <div className="qx-header-div">
                 <Dropdown overlay={this.renderDropdown()} trigger={['click']}>
-                  <Badge count={notificationsCount} offset={[-150,15]}>
+                  <Badge count={notificationsCount} offset={[-170,15]}>
                     <div className="qx-header-div-Dropdown-Badge-div">
-                      <Avatar src={this.props.avatar} /> 
+                      <Avatar src={this.props.avatar} style={{marginRight:'5px'}}/> 
                       <span style={{paddingRight:'10px'}}>欢迎你！{this.props.displayName}</span>  
                       <Icon type="down"/>
                     </div>
